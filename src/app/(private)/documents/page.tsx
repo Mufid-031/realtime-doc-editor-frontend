@@ -1,36 +1,27 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import { Plus } from "lucide-react";
+import React, { useState } from "react";
+import { ChartBarBig, GridIcon, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { getDocuments } from "@/features/documents/api/documents.api";
 import { Navbar } from "@/features/documents/components/index/navbar";
-import { DocumentUser } from "@/types";
 import { NoDocuments } from "@/features/documents/components/index/no-documents";
 import { CardDocument } from "@/features/documents/components/index/card-document";
 import { CreateModal } from "@/features/documents/components/index/create-modal";
+import { useDocuments } from "@/features/documents/hooks/use-documents";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { ListDocument } from "@/features/documents/components/index/list-document";
+import { Loading } from "@/components/loading";
 
 const DocumentsPage: React.FC = () => {
-  const [documents, setDocuments] = useState<DocumentUser[] | []>([]);
+  const { data: documents = [], isLoading } = useDocuments();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-
-  useEffect(() => {
-    (async () => {
-      try {
-        const docs = await getDocuments();
-        setDocuments(docs);
-      } catch (error) {
-        console.log("Failed to load documents", error);
-      }
-    })();
-  }, []);
 
   const filteredDocs = documents.filter((doc) =>
     doc.document?.title?.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  console.log(documents);
+  if (isLoading) return <Loading />;
 
   return (
     <div className="min-h-screen bg-white text-slate-900 flex flex-col">
@@ -53,26 +44,43 @@ const DocumentsPage: React.FC = () => {
           </Button>
         </header>
 
-        {filteredDocs.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {filteredDocs.map((doc) => (
-              <CardDocument key={doc.id} {...doc.document} />
-            ))}
+        <Tabs defaultValue="grid">
+          <div className="flex justify-end items-center w-full">
+            <TabsList>
+              <TabsTrigger value="grid">
+                <GridIcon className="w-4 h-4" />
+              </TabsTrigger>
+              <TabsTrigger value="stack">
+                <ChartBarBig className="w-4 h-4" />
+              </TabsTrigger>
+            </TabsList>
           </div>
-        ) : (
-          <NoDocuments
-            setIsModalOpen={setIsModalOpen}
-            searchQuery={searchQuery}
-          />
-        )}
+
+          <TabsContent value="grid">
+            {filteredDocs.length > 0 ? (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                {filteredDocs.map((doc) => (
+                  <CardDocument key={doc.id} {...doc.document} />
+                ))}
+              </div>
+            ) : (
+              <NoDocuments
+                setIsModalOpen={setIsModalOpen}
+                searchQuery={searchQuery}
+              />
+            )}
+          </TabsContent>
+          <TabsContent value="stack">
+            <div className="flex w-full flex-col gap-6">
+              {filteredDocs.map((doc) => (
+                <ListDocument key={doc.id} {...doc.document} />
+              ))}
+            </div>
+          </TabsContent>
+        </Tabs>
       </main>
 
-      {isModalOpen && (
-        <CreateModal
-          setDocuments={setDocuments}
-          setIsModalOpen={setIsModalOpen}
-        />
-      )}
+      {isModalOpen && <CreateModal setIsModalOpen={setIsModalOpen} />}
     </div>
   );
 };

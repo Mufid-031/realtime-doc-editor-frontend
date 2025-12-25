@@ -16,6 +16,7 @@ import { Footer } from "@/features/documents/components/edit/footer";
 import { useDocument } from "@/features/documents/hooks/use-document";
 import { useUpdateDocument } from "@/features/documents/hooks/use-update-document";
 import { useDeleteDocument } from "@/features/documents/hooks/use-delete-document";
+import { Loading } from "@/components/loading";
 
 const EditorPage: React.FC = () => {
   const { id: documentId } = useParams();
@@ -104,18 +105,7 @@ const EditorPage: React.FC = () => {
     editor.chain().focus().extendMarkRange("link").setLink({ href: url }).run();
   }, [editor]);
 
-  if (!editor || isLoading || !doc) {
-    return (
-      <div className="min-h-screen bg-white flex items-center justify-center">
-        <div className="flex flex-col items-center gap-4">
-          <div className="w-10 h-10 border-4 border-indigo-600 border-t-transparent rounded-full animate-spin"></div>
-          <p className="text-slate-400 font-medium animate-pulse">
-            Initializing Nexus workspace...
-          </p>
-        </div>
-      </div>
-    );
-  }
+  if (!editor || isLoading || !doc) return <Loading />;
 
   return (
     <div className="min-h-screen bg-white flex flex-col">

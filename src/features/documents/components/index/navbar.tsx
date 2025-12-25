@@ -18,7 +18,6 @@ export const Navbar: FC<NavbarProps> = ({ searchQuery, setSearchQuery }) => {
       try {
         const res = await getProfile();
         setUser(res);
-        console.log(res);
       } catch (error) {
         console.log(error);
       }

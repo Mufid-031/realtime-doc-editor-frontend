@@ -1,18 +1,16 @@
 import { Button } from "@/components/ui/button";
 import { FileText, X } from "lucide-react";
 import { FC, useState } from "react";
-import { createDocument } from "../../api/documents.api";
-import { DocumentUser } from "@/types";
+import { useCreateDocument } from "../../hooks/use-create-document";
+import { useRouter } from "next/navigation";
 
 interface CreateModalProps {
-  setDocuments: React.Dispatch<React.SetStateAction<DocumentUser[]>>;
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export const CreateModal: FC<CreateModalProps> = ({
-  setDocuments,
-  setIsModalOpen,
-}) => {
+export const CreateModal: FC<CreateModalProps> = ({ setIsModalOpen }) => {
+  const createDocument = useCreateDocument();
+  const router = useRouter();
   const [newTitle, setNewTitle] = useState("");
 
   const handleCreateDocument = async (e: React.FormEvent) => {
@@ -20,13 +18,11 @@ export const CreateModal: FC<CreateModalProps> = ({
     if (!newTitle.trim()) return;
 
     try {
-      const newDoc = await createDocument(newTitle.trim());
-
-      setDocuments((prevDocs: DocumentUser[]) => [...prevDocs, newDoc]);
+      const newDoc = await createDocument.mutateAsync(newTitle);
       setIsModalOpen(false);
       setNewTitle("");
 
-      // router.push(`/documents/${newDoc.id}/edit`);
+      router.push(`/documents/${newDoc.id}/edit`);
     } catch (error) {
       console.log("Failed to create document", error);
     }
