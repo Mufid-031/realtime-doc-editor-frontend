@@ -25,7 +25,7 @@ export default function PrivateLayout({
     setToken(token!);
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setLoading(false);
-  }, []);
+  }, [router, setToken]);
 
   if (loading) return null;
 

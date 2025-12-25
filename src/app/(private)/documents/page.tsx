@@ -4,11 +4,11 @@ import React, { useState, useEffect } from "react";
 import { Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { getDocuments } from "@/features/documents/api/documents.api";
-import { Navbar } from "@/features/documents/components/navbar";
+import { Navbar } from "@/features/documents/components/index/navbar";
 import { DocumentUser } from "@/types";
-import { NoDocuments } from "@/features/documents/components/no-documents";
-import { CardDocument } from "@/features/documents/components/card-document";
-import { CreateModal } from "@/features/documents/components/create-modal";
+import { NoDocuments } from "@/features/documents/components/index/no-documents";
+import { CardDocument } from "@/features/documents/components/index/card-document";
+import { CreateModal } from "@/features/documents/components/index/create-modal";
 
 const DocumentsPage: React.FC = () => {
   const [documents, setDocuments] = useState<DocumentUser[] | []>([]);
@@ -27,8 +27,10 @@ const DocumentsPage: React.FC = () => {
   }, []);
 
   const filteredDocs = documents.filter((doc) =>
-    doc.document.title?.toLowerCase().includes(searchQuery.toLowerCase())
+    doc.document?.title?.toLowerCase().includes(searchQuery.toLowerCase())
   );
+
+  console.log(documents);
 
   return (
     <div className="min-h-screen bg-white text-slate-900 flex flex-col">

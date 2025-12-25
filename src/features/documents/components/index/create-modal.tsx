@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { FileText, X } from "lucide-react";
 import { FC, useState } from "react";
-import { createDocument } from "../api/documents.api";
+import { createDocument } from "../../api/documents.api";
 import { DocumentUser } from "@/types";
 
 interface CreateModalProps {

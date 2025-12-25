@@ -1,11 +1,12 @@
 import { api } from "@/lib/axios";
+import { Document, DocumentUser } from "@/types";
 
-export const getDocuments = async () => {
+export const getDocuments = async (): Promise<DocumentUser[]> => {
   const res = await api.get("/documents");
   return res.data;
 };
 
-export const getDocument = async (id: string) => {
+export const getDocument = async (id: string): Promise<Document> => {
   const res = await api.get(`/documents/${id}`);
   return res.data;
 };
@@ -17,12 +18,12 @@ export const createDocument = async (title: string) => {
 
 export const updateDocument = async (
   id: string,
-  payload: { title?: string; content?: string }
-) => {
+  payload: Partial<Pick<Document, "title" | "content">>
+): Promise<DocumentUser> => {
   const res = await api.patch(`/documents/${id}`, payload);
   return res.data;
 };
 
-export const deleteDocument = async (id: string) => {
+export const deleteDocument = async (id: string): Promise<void> => {
   await api.delete(`/documents/${id}`);
 };
