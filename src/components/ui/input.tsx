@@ -11,7 +11,7 @@ function Input({ className, type, icon, error, ...props }: InputProps) {
   return (
     <div className="relative group">
       {icon && (
-        <div className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 transition-colors group-focus-within:text-indigo-600">
+        <div className="absolute left-3 top-1/2 -translate-y-1/2 text-primary transition-colors group-focus-within:text-accent-foreground">
           {icon}
         </div>
       )}
@@ -23,13 +23,13 @@ function Input({ className, type, icon, error, ...props }: InputProps) {
           "focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]",
           "aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive",
           icon ? "pl-10" : "pl-4",
-          error ? "border-red-500 bg-red-50/10" : "border-slate-200",
+          error ? "border-destructive bg-destructive/50" : "border-primary",
           className
         )}
         {...props}
       />
       {error && (
-        <p className="text-xs text-red-500 font-medium ml-0.5">{error}</p>
+        <p className="text-xs text-destructive font-medium ml-0.5">{error}</p>
       )}
     </div>
   );

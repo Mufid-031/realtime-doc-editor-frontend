@@ -1,7 +1,7 @@
 "use client";
 
 import { create } from "zustand";
-import { socket } from "./socket";
+import { socket } from "@/lib/socket";
 
 type SocketState = {
   connect: (token: string) => void;

@@ -1,6 +1,6 @@
 "use client";
 
-import { useAuthStore } from "@/auth/auth.store";
+import { useAuthStore } from "@/store/auth.store";
 import { useEffect } from "react";
 
 export default function LogoutPage() {
@@ -8,6 +8,7 @@ export default function LogoutPage() {
 
   useEffect(() => {
     logout();
+    window.location.href = "/auth/login";
   }, [logout]);
 
   return null;

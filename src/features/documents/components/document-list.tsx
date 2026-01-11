@@ -12,13 +12,13 @@ import { FileText, MoreHorizontal } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { FC } from "react";
 
-interface ListDocumentProps {
+interface DocumentListProps {
   id: string;
   title: string;
   updatedAt: string;
 }
 
-export const ListDocument: FC<ListDocumentProps> = ({
+export const DocumentList: FC<DocumentListProps> = ({
   id,
   title,
   updatedAt,

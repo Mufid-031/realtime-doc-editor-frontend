@@ -25,7 +25,7 @@ export const useUpdateDocument = (id: string) => {
 
       return { previous };
     },
-
+    
     onError: (_err, _payload, context) => {
       if (context?.previous) {
         queryClient.setQueryData(documentKeys.detail(id), context.previous);

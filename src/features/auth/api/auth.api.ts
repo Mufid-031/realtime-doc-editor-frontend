@@ -1,6 +1,6 @@
-import { useAuthStore } from "@/auth/auth.store";
+import { useAuthStore } from "@/store/auth.store";
 import { api } from "@/lib/axios";
-import { useSocketStore } from "@/socket/socket.store";
+import { useSocketStore } from "@/store/socket.store";
 
 export const loginApi = async (email: string, password: string) => {
   const response = await api.post("/auth/login", { email, password });

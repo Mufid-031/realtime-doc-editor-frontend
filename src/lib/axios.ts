@@ -1,6 +1,6 @@
 "use client";
 
-import { useAuthStore } from "@/auth/auth.store";
+import { useAuthStore } from "@/store/auth.store";
 import axios from "axios";
 
 export const api = axios.create({

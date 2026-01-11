@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { useAuthStore } from "@/auth/auth.store";
+import { useAuthStore } from "@/store/auth.store";
 import { getTokenFromCookie } from "@/lib/helpers/auth.helper";
 
 export default function PrivateLayout({
