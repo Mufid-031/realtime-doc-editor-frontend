@@ -1,7 +1,16 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { useProfile } from "@/hooks/use-profile";
-import { Layout, Search } from "lucide-react";
+import { useAuthStore } from "@/store/auth.store";
+import { Layout, Search, User } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { FC } from "react";
 
 interface DocumentNavbarProps {
@@ -9,11 +18,16 @@ interface DocumentNavbarProps {
   setSearchQuery: (query: string) => void;
 }
 
-export const DocuemntNavbar: FC<DocumentNavbarProps> = ({ searchQuery, setSearchQuery }) => {
+export const DocuemntNavbar: FC<DocumentNavbarProps> = ({
+  searchQuery,
+  setSearchQuery,
+}) => {
   const { data: user } = useProfile();
+  const logout = useAuthStore((s) => s.logout);
+  const router = useRouter();
 
   return (
-    <nav className="h-16 border-b flex items-center justify-between px-6 sticky top-0 backdrop-blur-md z-30">
+    <nav className="h-16 border-b flex items-center justify-between px-10 sticky top-0 backdrop-blur-md z-30">
       <div className="flex items-center gap-3">
         <div className="p-1.5 bg-primary rounded-lg">
           <Layout className="w-5 h-5 text-white" />
@@ -34,11 +48,35 @@ export const DocuemntNavbar: FC<DocumentNavbarProps> = ({ searchQuery, setSearch
         </div>
       </div>
 
-      <div className="flex items-center gap-4">
-        <div className="w-10 h-10 rounded-full bg-primary border flex items-center justify-center text-primary-foreground font-bold text-md cursor-pointer hover:bg-foreground transition-colors">
-          {user?.email?.charAt(0).toUpperCase()}
-        </div>
-      </div>
+      <Tooltip>
+        <TooltipTrigger asChild className="flex items-center gap-4">
+          <div className="w-10 h-10 rounded-full bg-primary border flex items-center justify-center text-primary-foreground font-bold text-md cursor-pointer hover:bg-foreground transition-colors">
+            {user?.email?.charAt(0).toUpperCase()}
+          </div>
+        </TooltipTrigger>
+        <TooltipContent>
+          <div className="px-3 py-2 grid space-y-3">
+            <span className="flex items-center gap-3">
+              {" "}
+              <div className="w-8 h-8 rounded-full bg-primary-foreground flex items-center justify-center">
+                <User className="w-4 h-4 text-foreground" />
+              </div>
+              {user?.email}
+            </span>
+            <Separator />
+            <Button
+              variant="destructive"
+              type="button"
+              onClick={() => {
+                logout();
+                router.replace("/auth/login");
+              }}
+            >
+              Logout
+            </Button>
+          </div>
+        </TooltipContent>
+      </Tooltip>
     </nav>
   );
 };

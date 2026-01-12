@@ -6,6 +6,10 @@ import {
   Code,
   Heading1,
   Heading2,
+  Heading3,
+  Heading4,
+  Heading5,
+  Heading6,
   Italic,
   LinkIcon,
   List,
@@ -25,7 +29,7 @@ interface ToolbarProps {
 
 export const Toolbar: FC<ToolbarProps> = ({ editor, setLink }) => {
   return (
-    <div className="h-12 border-b border-slate-100 bg-white flex items-center gap-0.5 px-4 sticky top-14 z-30 overflow-x-auto scrollbar-hide">
+    <div className="h-12 border-b flex items-center gap-0.5 px-4 sticky top-14 z-30 overflow-x-auto scrollbar-hide">
       <ToolbarGroup>
         <ToolbarButton
           active={editor?.isActive("heading", { level: 1 })}
@@ -40,6 +44,34 @@ export const Toolbar: FC<ToolbarProps> = ({ editor, setLink }) => {
             editor?.chain().focus().toggleHeading({ level: 2 }).run()
           }
           icon={<Heading2 size={18} />}
+        />
+        <ToolbarButton
+          active={editor?.isActive("heading", { level: 3 })}
+          onClick={() =>
+            editor?.chain().focus().toggleHeading({ level: 3 }).run()
+          }
+          icon={<Heading3 size={18} />}
+        />
+        <ToolbarButton
+          active={editor?.isActive("heading", { level: 4 })}
+          onClick={() =>
+            editor?.chain().focus().toggleHeading({ level: 4 }).run()
+          }
+          icon={<Heading4 size={18} />}
+        />
+        <ToolbarButton
+          active={editor?.isActive("heading", { level: 5 })}
+          onClick={() =>
+            editor?.chain().focus().toggleHeading({ level: 5 }).run()
+          }
+          icon={<Heading5 size={18} />}
+        />
+        <ToolbarButton
+          active={editor?.isActive("heading", { level: 6 })}
+          onClick={() =>
+            editor?.chain().focus().toggleHeading({ level: 6 }).run()
+          }
+          icon={<Heading6 size={18} />}
         />
         <ToolbarButton
           active={editor?.isActive("paragraph")}
@@ -128,13 +160,13 @@ export const Toolbar: FC<ToolbarProps> = ({ editor, setLink }) => {
 const ToolbarGroup: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => (
-  <div className="flex items-center gap-0.5 p-1 bg-slate-50 rounded-lg mr-1">
+  <div className="flex items-center gap-0.5 p-1 bg-primary-foreground rounded-lg mr-1">
     {children}
   </div>
 );
 
 const ToolbarDivider = () => (
-  <div className="w-px h-6 bg-slate-200 mx-2 shrink-0" />
+  <div className="w-px h-6 bg-border mx-2 shrink-0" />
 );
 
 const ToolbarButton: React.FC<{
@@ -149,8 +181,8 @@ const ToolbarButton: React.FC<{
       p-1.5 rounded-md transition-all duration-200 shrink-0
       ${
         active
-          ? "bg-white text-indigo-600 shadow-sm ring-1 ring-slate-200"
-          : "text-slate-500 hover:bg-white hover:text-slate-800"
+          ? "bg-foreground text-primary-foreground shadow-sm ring-1"
+          : "text-accent-foreground hover:bg-accent hover:text-primary"
       }
     `}
   >

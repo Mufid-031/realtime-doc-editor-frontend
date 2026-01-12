@@ -19,28 +19,30 @@ export const Header: FC<HeaderProps> = ({
 }) => {
   const router = useRouter();
 
+  const slicedUsersDoc = doc.users.slice(0, 1).map((user) => user.user.name);
+
   return (
-    <header className="h-14 border-b border-slate-100 flex items-center justify-between px-4 sticky top-0 bg-white/80 backdrop-blur-lg z-40">
+    <header className="h-14 border-b flex items-center justify-between px-4 sticky top-0 backdrop-blur-lg z-40">
       <div className="flex items-center gap-4">
         <button
           onClick={() => router.push("/documents")}
-          className="p-1.5 hover:bg-slate-100 rounded-lg text-slate-500 transition-colors"
+          className="p-1.5 hover:bg-accent rounded-lg text-primary transition-colors"
           title="Back to Dashboard"
         >
           <ChevronLeft size={20} />
         </button>
 
         <div className="flex items-center gap-3">
-          <div className="h-6 w-px bg-slate-200" />
+          <div className="h-6 w-px bg-primary-foreground" />
           <div className="flex flex-col">
             <input
               value={doc.title}
               onChange={handleTitleChange}
-              className="text-sm font-bold text-slate-900 bg-transparent border-none outline-none focus:ring-0 p-0 hover:bg-slate-100 rounded px-2 py-0.5 transition-colors w-40 md:w-64 truncate"
+              className="text-sm font-bold text-primary bg-transparent border-none outline-none focus:ring-0 p-0 hover:bg-primary-foreground rounded px-2 py-0.5 transition-colors w-40 md:w-64 truncate"
             />
             <div className="flex items-center gap-2 pl-2">
               {isSaving ? (
-                <span className="text-[9px] uppercase font-black text-indigo-500 animate-pulse tracking-tighter">
+                <span className="text-[9px] uppercase font-black text-accent-foreground animate-pulse tracking-tighter">
                   Saving Changes...
                 </span>
               ) : (
@@ -58,17 +60,19 @@ export const Header: FC<HeaderProps> = ({
 
       <div className="flex items-center gap-2">
         <div className="flex -space-x-2 mr-4 hidden sm:flex">
-          {[1, 2].map((i) => (
+          {slicedUsersDoc.map((name) => (
             <div
-              key={i}
-              className="w-7 h-7 rounded-full border-2 border-white bg-slate-100 flex items-center justify-center text-[10px] font-bold text-slate-400"
+              key={name}
+              className="w-10 h-10 rounded-full border-2 bg-foreground flex items-center justify-center text-[10px] font-bold text-primary-foreground"
             >
-              {i === 1 ? "JD" : "AS"}
+              {name.slice(0, 2)}
             </div>
           ))}
-          <div className="w-7 h-7 rounded-full border-2 border-white bg-indigo-600 flex items-center justify-center text-[10px] font-bold text-white">
-            +1
-          </div>
+          {doc.users.length > 2 && (
+            <div className="w-10 h-10 rounded-full border-2 bg-foreground flex items-center justify-center text-[10px] font-bold text-primary-foreground">
+              +{doc.users.length - 2}
+            </div>
+          )}
         </div>
         <Button
           variant="outline"
@@ -77,8 +81,8 @@ export const Header: FC<HeaderProps> = ({
           <Share2 size={14} className="mr-2" />
           Share
         </Button>
-        <div className="w-px h-6 bg-slate-200 mx-1" />
-        <button className="p-2 hover:bg-slate-100 rounded-xl text-slate-400">
+        <div className="w-px h-6 bg-primary-foreground mx-1" />
+        <button className="p-2 hover:bg-accent rounded-xl text-primary">
           <Settings size={18} />
         </button>
       </div>

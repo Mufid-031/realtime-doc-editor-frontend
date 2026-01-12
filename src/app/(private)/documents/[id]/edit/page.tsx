@@ -31,11 +31,7 @@ const EditorPage: React.FC = () => {
   // Initialize Editor
   const editor = useEditor({
     extensions: [
-      StarterKit.configure({
-        heading: {
-          levels: [1, 2, 3],
-        },
-      }),
+      StarterKit,
       Underline,
       TaskList,
       TaskItem.configure({

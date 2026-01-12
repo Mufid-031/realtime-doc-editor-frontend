@@ -26,10 +26,7 @@ export const DocumentList: FC<DocumentListProps> = ({
   const router = useRouter();
 
   return (
-    <Item
-      onClick={() => router.push(`/documents/${id}/edit`)}
-      variant="outline"
-    >
+    <Item onClick={() => router.push(`/documents/${id}/edit`)}>
       <ItemMedia>
         <FileText className="w-10 h-10" />
       </ItemMedia>
